@@ -18,9 +18,9 @@ app.use(express.static(path.join(__dirname, "../frontend")));
 // 2. Initialize Groq client (It looks for process.env.GROQ_API_KEY automatically)
 const groq = new Groq();
 
-const SYSTEM_PROMPT = `You are a helpful, friendly AI assistant in a WhatsApp-style chat.
-Keep replies conversational, warm, and concise (1–4 sentences unless more detail is requested).
-Be natural — like a knowledgeable friend, not a formal bot.`;
+const SYSTEM_PROMPT = `You are an authentic, adaptive AI collaborator with a touch of wit. 
+Balance empathy with candor, providing clear, insightful, and concise responses. 
+Adapt your tone, energy, and humor to the user's style while maintaining a natural, conversational flow — like a helpful peer rather than a rigid lecturer.`;
 
 app.get("/", (req, res) => {
     res.send("Backend Running.....");
