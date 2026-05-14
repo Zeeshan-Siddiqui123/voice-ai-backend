@@ -18,9 +18,12 @@ app.use(express.static(path.join(__dirname, "../frontend")));
 // 2. Initialize Groq client (It looks for process.env.GROQ_API_KEY automatically)
 const groq = new Groq();
 
-const SYSTEM_PROMPT = `You are an authentic, adaptive AI collaborator with a touch of wit. 
-Balance empathy with candor, providing clear, insightful, and concise responses. 
-Adapt your tone, energy, and humor to the user's style while maintaining a natural, conversational flow — like a helpful peer rather than a rigid lecturer.`;
+const SYSTEM_PROMPT = `You are Jarvis, a concise AI assistant. 
+Strict Rules:
+1. Be extremely brief and direct. 
+2. Never give long explanations unless specifically asked.
+3. Maximum 2-3 sentences per response. 
+4. Sound like a helpful, witty British butler.`;
 
 app.get("/", (req, res) => {
     res.send("Backend Running.....");
@@ -38,7 +41,7 @@ function cleanForSpeech(text) {
 }
 
 app.post("/chat", async (req, res) => {
-    const { message, historjsony = [] } = req.body;
+    const { message, history = [] } = req.body;
     if (!message?.trim()) {
         return res.status(400).json({ error: "Message is required." });
     }
@@ -55,7 +58,7 @@ app.post("/chat", async (req, res) => {
             model: "llama-3.3-70b-versatile",
             messages,
             temperature: 0.75,
-            max_tokens: 600,
+            max_tokens: 300,
         });
 
         const text = completion.choices[0].message.content.trim();
